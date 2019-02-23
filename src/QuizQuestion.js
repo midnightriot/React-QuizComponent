@@ -1,51 +1,32 @@
-import React, {Component} from 'react'
+import React from 'react'
 import QuizQuestionButton from './QuizQuestionButton'
 
-class QuizQuestion extends Component {
+function QuizQuestion(props) {
 
-    constructor(props) {
+    return (
+        <main>
+            <section>
+                <p>
+                    {props.quiz_question.instruction_text}
+                </p>
+            </section>
+            <section className="buttons">
+                <ul>
+                    {props.quiz_question.answer_options.map((answer_option, index) =>
+                        <QuizQuestionButton
+                            clickHandler={handleClick}
+                            button_text={answer_option} key={index}
+                        />)
+                    }
+                </ul>
+            </section>
+            {props.answeredIncorrectly ? <p className='error'>Sorry, that's not right</p> : null}
+        </main>
+    );
 
-        super(props);
+    function handleClick(buttonText) {
 
-        this.state = {
-            incorrectAnswer: false
-        }
-    }
-
-    render() {
-
-        return (
-            <main>
-                <section>
-                    <p>
-                        {this.quizQuestion.instruction_text}
-                    </p>
-                </section>
-                <section className="buttons">
-                    <ul>
-                        {this.props.quiz_question.answer_options.map((answer_option, index) =>
-                            <QuizQuestionButton
-                                clickHandler={this.handleClick.bind(this)}
-                                button_text={answer_option} key={index}
-                            />)
-                        }
-                    </ul>
-                </section>
-                {this.state.incorrectAnswer ? <p className='error'>Sorry, that's not right</p> : null}
-            </main>
-        );
-    }
-
-    handleClick(buttonText) {
-        const answeredCorrectly = buttonText === this.quizQuestion.answer;
-
-        this.setState({incorrectAnswer: !answeredCorrectly})
-
-        answeredCorrectly && this.props.showNextQuestionHandler();
-    }
-
-    get quizQuestion() {
-        return this.props.quiz_question
+        props.onQuizAnswerSelected(buttonText);
     }
 }
 

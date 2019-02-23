@@ -1,44 +1,36 @@
-import React, {Component} from 'react'
+import React from 'react'
 import QuizQuestion from './QuizQuestion'
 import QuizEnd from './QuizEnd'
 
-let quizData = require('./quiz_data.json');
+function Quiz(props) {
 
-class Quiz extends Component {
-
-    constructor(props) {
-
-        super(props);
-
-        this.state = {quiz_position: 1}
+    function showNextQuestion() {
+        props.showNextQuestion();
     }
 
-    render() {
-
-        const isQuizEnd = this.state.quiz_position - 1 === quizData.quiz_questions.length;
-
-        return (
-            <div>
-                {isQuizEnd && <QuizEnd resetClickHandler={this.handleResetClick.bind(this)}/>}
-                {!isQuizEnd && <QuizQuestion
-                    quiz_question={quizData.quiz_questions[this.state.quiz_position - 1]}
-                    showNextQuestionHandler={this.showNextQuestion.bind(this)}
-                />
-                }
-            </div>
-        );
+    function handleResetClick() {
+        props.handleResetClick();
     }
 
-    showNextQuestion() {
-        const nextQuestionPosition = this.state.quiz_position + 1;
-
-        this.setState({quiz_position: nextQuestionPosition});
+    function onQuizAnswerSelected(answer) {
+        props.onQuizAnswerSelected(answer);
     }
 
-    handleResetClick() {
-        this.setState({quiz_position: 1})
-    }
+    const isQuizEnd = props.isQuizEnd;
 
+    const componentToDisplay = isQuizEnd
+        ? <QuizEnd resetClickHandler={handleResetClick}/>
+        : <QuizQuestion
+            quiz_question={props.quizQuestion}
+            showNextQuestionHandler={showNextQuestion}
+            onQuizAnswerSelected={onQuizAnswerSelected}
+            answeredIncorrectly={props.answeredIncorrectly}/>;
+
+    return (
+        <div>
+            {componentToDisplay}
+        </div>
+    );
 }
 
 export default Quiz;
