@@ -8,15 +8,21 @@ import {Provider} from 'react-redux';
 import {loadActiveQuiz} from './actions/quizActions';
 
 // Changes for practice
-// 1. [DONE]Functions instead of classes where possible
-// 2. [DONE]Redux for store
-// 3. React-Redux (Use mapDispatchToProps with bindActionCreators
-// middle ware for dev mode only (reduxImmutableStateInvariant, dev tools)
-
-// 4. PropTypes
-// 5. Typescript
-// 6. Add routing to form, validation, enter new question
-// 7. http server interaction
+// [DONE]Functions instead of classes where possible
+// [DONE]Redux for store
+// [DONE]React-Redux (Use mapDispatchToProps with bindActionCreators
+// [DONE]middle ware for dev mode only
+// [DONE WITH MOCK]http server interaction
+// multiple quizzes with quiz selection
+// Question/Quiz editing/adding (admin) Requires react router, validation
+// Score tracking
+// User login
+// Score board
+// Style with bootstrap
+// PropTypes or Typescript
+// ServerSide Rendering
+// ServiceWorkers
+// Progressive web app
 
 const store = configureStore();
 store.dispatch(loadActiveQuiz());
