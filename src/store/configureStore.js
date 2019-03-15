@@ -14,7 +14,7 @@ export function configureStore(initialState) {
         middlewareArgs.push(reduxImmutableStateInvariant())
     }
 
-    return createStore(rootReducer, initialState, applyMiddleware(...middlewareArgs);
+    return createStore(rootReducer, initialState, applyMiddleware(...middlewareArgs));
 }
 
 // Need to figure out initial state when doing combine reducers. Quiz reducer is getting passed undefined or empty object and this messes everything up. I'm guessing my reducers should handle less state and not full object, or I need to define a different default state.
