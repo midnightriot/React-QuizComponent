@@ -1,12 +1,14 @@
 import React from 'react'
 import {render} from 'react-dom'
-import {BrowserRouter, Route} from 'react-router-dom'
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 import {configureStore} from './store/configureStore';
 import {Provider} from 'react-redux';
 import AddEditQuizPage from './components/AddEditQuiz/AddEditQuizPage';
 import TakeQuizPage from './components/TakeQuiz/TakeQuizPage';
+import Header from './components/Common/Header';
+import PageNotFound from './components/PageNotFound';
 
 // Changes for practice
 // [DONE]Functions instead of classes where possible
@@ -50,9 +52,13 @@ const store = configureStore();
 const app = (
     <Provider store={store}>
         <BrowserRouter>
-            <Route exact path='/' component={TakeQuizPage}/>
-            <Route path='/AddEdit/:id' component={AddEditQuizPage}/>
-            <Route path='/AddEdit/' component={AddEditQuizPage}/>
+            <Header/>
+            <Switch>
+                <Route exact path='/' component={TakeQuizPage}/>
+                <Route path='/AddEdit/:id' component={AddEditQuizPage}/>
+                <Route path='/AddEdit' component={AddEditQuizPage}/>
+                <Route component={PageNotFound}/>
+            </Switch>
         </BrowserRouter>
     </Provider>
 );

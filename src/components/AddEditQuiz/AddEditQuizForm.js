@@ -1,5 +1,5 @@
 import React from 'react';
-import TextInput from '../Form/TextInput';
+import TextInput from '../Common/Form/TextInput';
 import AddEditQuestion from './AddEditQuestion';
 
 function AddEditQuizForm({quiz, errors, isSaving, onChange, onSave}) {
