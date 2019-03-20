@@ -1,0 +1,60 @@
+{
+  "quizzes": [
+    {
+      "id": 1,
+      "name": "Default Quiz",
+      "questions": [
+        {
+          "id": 1,
+          "instructionText": "How many continents are there on Planet Earth?",
+          "answerOptions": [
+            "5",
+            "6",
+            "7",
+            "8"
+          ],
+          "answer": "7"
+        },
+        {
+          "id": 2,
+          "instructionText": "What's your favorite number?",
+          "answerOptions": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "answer": "4"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Another Quiz",
+      "questions": [
+        {
+          "id": 1,
+          "instructionText": "What is Joe's favorite number",
+          "answerOptions": [
+            "5",
+            "6",
+            "7",
+            "8"
+          ],
+          "answer": "7"
+        },
+        {
+          "id": 2,
+          "instructionText": "What is the Answer to Life, the Universe, and Everything",
+          "answerOptions": [
+            "42",
+            "2",
+            "3",
+            "4"
+          ],
+          "answer": "42"
+        }
+      ]
+    }
+  ]
+}

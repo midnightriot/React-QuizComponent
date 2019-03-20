@@ -11,10 +11,9 @@ function QuizEnd({onReset}) {
     return (
         <div>
             <p>Thanks for playing!</p>
-            <a href='' onClick={event => onResetClicked(event)}>Reset Quiz</a>
+            <button onClick={event => onResetClicked(event)}>Reset Quiz</button>
         </div>
     );
 }
-
 
 export default QuizEnd;

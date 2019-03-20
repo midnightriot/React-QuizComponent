@@ -3,7 +3,7 @@ import QuizQuestionButton from './QuizQuestionButton'
 
 function QuizQuestion({quizQuestion, answeredIncorrectly, onQuizAnswerSelected}) {
 
-    const quizButtons = quizQuestion.answer_options.map((answerOption, index) =>
+    const quizButtons = quizQuestion.answerOptions.map((answerOption, index) =>
         <QuizQuestionButton
             onQuizAnswerSelected={onQuizAnswerSelected}
             answerText={answerOption} key={index}
@@ -18,7 +18,7 @@ function QuizQuestion({quizQuestion, answeredIncorrectly, onQuizAnswerSelected})
         <main>
             <section>
                 <p>
-                    {quizQuestion.instruction_text}
+                    {quizQuestion.instructionText}
                 </p>
             </section>
             <section className="buttons">
