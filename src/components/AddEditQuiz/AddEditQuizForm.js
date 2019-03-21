@@ -12,7 +12,7 @@ function AddEditQuizForm({quiz, errors, isSaving, onChange, onSave}) {
                        name='name'
                        value={quiz.name}
             />
-            {quiz.questions.map(q => <AddEditQuestion question={q} key={q.id}/>)}
+            {quiz.questions.map(q => <AddEditQuestion question={q} onChange={onChange} key={q.id}/>)}
 
             <button type='submit' disabled={isSaving} className="btn btn-primary">
                 {isSaving ? 'saving...' : 'save'}

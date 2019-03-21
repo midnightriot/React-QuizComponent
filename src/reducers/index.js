@@ -3,10 +3,12 @@ import activeQuizReducer from './activeQuizReducer';
 import quizDataReducer from './quizDataReducer';
 import addEditQuizReducer from './addEditQuizReducer';
 
-export const rootReducer = combineReducers(
+const rootReducer = combineReducers(
     {
         quizData: quizDataReducer,
         activeQuiz: activeQuizReducer,
         addEditQuiz: addEditQuizReducer
     }
 );
+
+export default rootReducer;

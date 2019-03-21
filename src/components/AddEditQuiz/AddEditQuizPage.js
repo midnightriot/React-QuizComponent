@@ -11,11 +11,11 @@ function AddEditQuizPage({isSaving, loadQuizzes, saveQuiz, history, quizzes, ...
     useEffect(() => {
         if (quizzes == null || quizzes.length === 0) {
             loadQuizzes()
-                // .catch(error => alert(`Failed to load quizzes from AddEditQuiz: ${error}`));
+            // .catch(error => alert(`Failed to load quizzes from AddEditQuiz: ${error}`));
         } else {
             setQuiz({...props.quiz});
         }
-    }, [props.quiz]);
+    }, [props.quiz.id]);
 
     return (
         <AddEditQuizForm
@@ -29,16 +29,86 @@ function AddEditQuizPage({isSaving, loadQuizzes, saveQuiz, history, quizzes, ...
     function onChange(event) {
         const {name, value} = event.target; // Lets us retain a ref
 
-        setQuiz(prevQuiz => ({
-            ...prevQuiz,
-            [name]: value // May need to process value to get in correct format.
-        }));
-
+        setQuizByName(name, value, quiz, setQuiz);
     }
 
     function onSave(event) {
         event.preventDefault();
         saveQuiz(quiz).then(() => history.push('/'));
+    }
+}
+
+// Better name
+function setQuizByName(name, value, quiz, setQuiz) {
+    const [nameType, questionIdRaw, answerOptionIndexRaw] = name.split('.');
+
+    switch (nameType) {
+        case 'instructionText': {
+
+            const questionId = parseInt(questionIdRaw, 10);
+
+            const question = quiz.questions.find(q => q.id === questionId);
+
+            const updatedQuestion = {
+                ...question,
+                instructionText: value
+            };
+
+            setQuiz(prevQuiz => ({
+                ...prevQuiz,
+                questions: prevQuiz.questions
+                    .map(q => q.id === questionId ? updatedQuestion : q)
+            }));
+            break;
+        }
+
+        case 'answer': {
+
+            const questionId = parseInt(questionIdRaw, 10);
+
+            const question = quiz.questions.find(q => q.id === questionId);
+
+            const updatedQuestion = {
+                ...question,
+                answer: value
+            };
+
+            setQuiz(prevQuiz => ({
+                ...prevQuiz,
+                questions: prevQuiz.questions
+                    .map(q => q.id === questionId ? updatedQuestion : q)
+            }));
+            break;
+        }
+
+        case 'answerOption': {
+
+            const questionId = parseInt(questionIdRaw, 10);
+
+            const question = quiz.questions.find(q => q.id === questionId);
+
+            const answerOptionIndex = parseInt(answerOptionIndexRaw, 10);
+
+            const updatedQuestion = {
+                ...question,
+                answerOptions: question.answerOptions
+                    .map((a, index) => index === answerOptionIndex ? value : a)
+            };
+
+            setQuiz(prevQuiz => ({
+                ...prevQuiz,
+                questions: prevQuiz.questions
+                    .map(q => q.id === questionId ? updatedQuestion : q)
+            }));
+            break;
+        }
+
+        default:
+            setQuiz(prevQuiz => ({
+                ...prevQuiz,
+                [nameType]: value
+            }));
+            break;
     }
 }
 
@@ -55,7 +125,7 @@ function mapStateToProps(state, ownProps) {
         ? parseInt(routeId, 10)
         : null;
 
-    const quiz = findQuizById(quizzes, quizId) || { name: "", questions: []};
+    const quiz = findQuizById(quizzes, quizId) || {name: "", questions: []};
 
     return {
         quiz,

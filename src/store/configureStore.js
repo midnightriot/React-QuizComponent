@@ -1,7 +1,7 @@
 import {applyMiddleware, createStore} from 'redux'
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant'
 import thunk from 'redux-thunk'
-import {rootReducer} from '../reducers';
+import rootReducer from '../reducers/index'
 
 // ToDo: load choose middleware based on environment
 // i.e. no imputableStateInvariant if prod, etc.
