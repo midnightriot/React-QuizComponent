@@ -34,8 +34,10 @@ import registerServiceWorker from './registerServiceWorker';
 // Add a new quiz
 
 // After ToDo:
+// Add an initial state object (like in video)
+// Move actions and reducers into redux folder
+// Split up actions into related groups
 // Figure out which state can be local component react state and which should be redux store application wide state.
-// Split up actions into related groups?
 // Convert to typescript
 // Style with bootstrap
 // Add more features from Changes for practice section

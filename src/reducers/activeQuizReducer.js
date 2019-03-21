@@ -1,4 +1,9 @@
-import {ACTIVE_QUIZ_IS_READY, LOADING_ACTIVE_QUIZ, QUESTION_ANSWERED, RESET_QUIZ} from '../actions/actionTypes'
+import {
+    LOAD_ACTIVE_QUIZ_SUCCESS,
+    LOADING_ACTIVE_QUIZ,
+    QUESTION_ANSWERED,
+    RESET_QUIZ
+} from '../actions/actionTypes'
 
 function activeQuizReducer(state = {
     quizPosition: 1,
@@ -21,7 +26,7 @@ function activeQuizReducer(state = {
             return Object.assign({}, state, alterations)
         }
 
-        case ACTIVE_QUIZ_IS_READY: {
+        case LOAD_ACTIVE_QUIZ_SUCCESS: {
 
             const alterations = {
                 isQuizLoading: false,

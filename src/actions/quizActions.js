@@ -1,10 +1,11 @@
 import {
-    ACTIVE_QUIZ_IS_READY, LOAD_QUIZ_FOR_EDIT_SUCCESS,
-    LOAD_QUIZZES_SUCCESS, LOADING_ACTIVE_QUIZ, LOADING_QUIZZES,
+    LOAD_ACTIVE_QUIZ_SUCCESS, LOAD_QUIZ_FOR_EDIT_SUCCESS,
+    LOAD_QUIZZES_SUCCESS,
     QUESTION_ANSWERED,
-    RESET_QUIZ, SAVE_EXISTING_QUIZ_SUCCESS, SAVE_NEW_QUIZ_SUCCESS, SAVING_QUIZ
+    RESET_QUIZ, SAVE_EXISTING_QUIZ_SUCCESS, SAVE_NEW_QUIZ_SUCCESS
 } from './actionTypes';
 import MockQuizApi from '../api/mockQuizQuestionsApi';
+import {beginApiCall} from './apiStatusActions';
 
 export function resetQuiz() {
     return {type: RESET_QUIZ}
@@ -19,27 +20,27 @@ export function quizAnswerAttemptMade(answer) {
 
 export function loadActiveQuiz(quizId) {
     return dispatch => {
-        dispatch({type: LOADING_ACTIVE_QUIZ});
+        dispatch(beginApiCall());
 
         return MockQuizApi.getQuizData(quizId)
-            .then(quiz => dispatch(activeQuizIsReady(quiz)))
+            .then(quiz => dispatch(loadActiveQuizSuccess(quiz)))
             .catch(error => {
                 throw(error)
             });
     }
 }
 
-function activeQuizIsReady(quizData) {
+function loadActiveQuizSuccess(quizData) {
     return {
-        type: ACTIVE_QUIZ_IS_READY,
+        type: LOAD_ACTIVE_QUIZ_SUCCESS,
         activeQuiz: quizData
     }
 }
 
 // ToDo: create failure action and reducer to handle
 export function loadQuizzes() {
-    return dispatch =>  {
-        dispatch({type: LOADING_QUIZZES});
+    return dispatch => {
+        dispatch(beginApiCall());
 
         return MockQuizApi.getQuizzes()
             .then(quizzes => dispatch(loadQuizzesSuccess(quizzes)))
@@ -73,7 +74,6 @@ function loadQuizForEditSuccess(quiz) {
 
 export function saveQuiz(quiz) {
     return dispatch => {
-        dispatch({type: SAVING_QUIZ});
 
         return MockQuizApi.saveQuiz(quiz)
             .then(savedQuiz => {

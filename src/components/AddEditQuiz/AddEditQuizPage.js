@@ -2,11 +2,13 @@ import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import AddEditQuizForm from './AddEditQuizForm';
 import {loadQuizzes, saveQuiz} from '../../actions/quizActions';
+import Spinner from '../Common/Spinner/Spinner';
 
-function AddEditQuizPage({isSaving, loadQuizzes, saveQuiz, history, quizzes, ...props}) {
+function AddEditQuizPage({loadQuizzes, saveQuiz, history, quizzes, ...props}) {
 
     const [quiz, setQuiz] = useState({...props.quiz});
     const [errors, setErrors] = useState({});
+    const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
         if (quizzes == null || quizzes.length === 0) {
@@ -17,14 +19,14 @@ function AddEditQuizPage({isSaving, loadQuizzes, saveQuiz, history, quizzes, ...
         }
     }, [props.quiz.id]);
 
-    return (
-        <AddEditQuizForm
+    return (quizzes == null || quizzes.length === 0)
+        ? <Spinner/>
+        : (<AddEditQuizForm
             quiz={quiz}
             onChange={onChange}
             isSaving={isSaving}
             onSave={onSave}
-        />
-    );
+        />);
 
     function onChange(event) {
         const {name, value} = event.target; // Lets us retain a ref
@@ -34,6 +36,7 @@ function AddEditQuizPage({isSaving, loadQuizzes, saveQuiz, history, quizzes, ...
 
     function onSave(event) {
         event.preventDefault();
+        setIsSaving(true);
         saveQuiz(quiz).then(() => history.push('/'));
     }
 }
@@ -129,7 +132,6 @@ function mapStateToProps(state, ownProps) {
 
     return {
         quiz,
-        isSaving: state.addEditQuiz.isSaving,
         quizzes // Not crazy about having this depend on a list of quizzes since I'm only really interested in editing a single quiz. Will consider options to get rid of this like saying if quizzes are loaded, or maybe just looking up a quiz some how.
     }
 }
