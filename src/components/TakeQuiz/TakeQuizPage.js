@@ -9,7 +9,6 @@ function TakeQuizPage({
                           quizzes,
                           isLoading,
                           isQuizEnded,
-                          hasActiveQuiz,
                           onActiveQuizSelected,
 
                           selectedQuizId,
@@ -27,11 +26,12 @@ function TakeQuizPage({
         }
     }, []);
 
+    const hasActiveQuiz = activeQuiz != null;
 
     const showQuizSelection = !isLoading
         && (isQuizEnded || !hasActiveQuiz);
 
-    const showQuiz = !isLoading && activeQuiz != null;
+    const showQuiz = !isLoading && hasActiveQuiz;
 
     return (
         <React.Fragment>
@@ -41,7 +41,7 @@ function TakeQuizPage({
                 selectedQuizId={selectedQuizId}
                 onQuizSelected={onActiveQuizSelected}
             />}
-                                 
+
             {showQuiz && <Quiz
                 isQuizEnded={isQuizEnded}
                 answeredIncorrectly={answeredIncorrectly}

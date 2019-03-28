@@ -3,18 +3,39 @@ import TextInput from '../Common/Form/TextInput';
 import AddEditQuestion from './AddEditQuestion';
 
 function AddEditQuizForm({quiz, errors, isSaving, onChange, onSave}) {
+
+    const canSave = !isSaving || errors == null;
+
+    errors = errors || {};
+
+    const questionErrors = errors.questionDetails || [];
+
     return (
         <form onSubmit={onSave}>
-            <h2>{`Edit quiz: ${quiz.id}`}</h2>
+            <h1>{`Edit quiz: ${quiz.id}`}</h1>
+            {errors.id && <div className="alert alert-danger">{errors.id}</div>}
+
             <TextInput label='Quiz Name'
                        onChange={onChange}
                        placeholder={"e.x. Which of these is blue"}
                        name='name'
+                       error={errors.name}
                        value={quiz.name}
             />
-            {quiz.questions.map(q => <AddEditQuestion question={q} onChange={onChange} key={q.id}/>)}
 
-            <button type='submit' disabled={isSaving} className="btn btn-primary">
+            <h2>Questions</h2>
+            {errors.question && <div className="alert alert-danger">{errors.questions}</div>}
+
+            {quiz.questions
+                .map((question, index) =>
+                    <AddEditQuestion
+                        question={question}
+                        onChange={onChange}
+                        key={question.id}
+                        errors={questionErrors[index]}
+                    />)}
+
+            <button type='submit' disabled={canSave} className="btn btn-primary">
                 {isSaving ? 'saving...' : 'save'}
             </button>
         </form>

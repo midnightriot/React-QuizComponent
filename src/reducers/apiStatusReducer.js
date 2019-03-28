@@ -1,23 +1,18 @@
-import {API_CALL_ERROR, BEGIN_API_CALL} from '../actions/actionTypes';
+import {API_CALL_ERROR, API_CALL_SUCCESS, BEGIN_API_CALL} from '../actions/actionTypes';
 
-// NOt crazy about this because it will break if convention is not followed and failurse should also do this. Plus if other actions have Success or Failure in them they will tirgger this.
-
-function actionTypeEndsInSuccess(type) {
-    return type.substring(type.length - 8) === "_SUCCESS";
-}
-
+// I'm not crazy about a global spinner and thing that each component should know if its loading or not. This is also easy to break and just doesn't feel right to me. Its easy to call begin and for get end/error
 function apiStatusReducer(state = 0, action) {
 
-    if (action.type === BEGIN_API_CALL) {
-        return state + 1;
-    } else if (
-        action.type === API_CALL_ERROR ||
-        actionTypeEndsInSuccess(action.type)
-    ) {
-        return state - 1;
+    switch (action.type) {
+        case BEGIN_API_CALL:
+            return state + 1;
+        case API_CALL_SUCCESS:
+            return state - 1;
+        case API_CALL_ERROR:
+            return state - 1;
+        default:
+            return state;
     }
-
-    return state;
 }
 
 export default apiStatusReducer;

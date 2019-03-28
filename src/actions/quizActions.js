@@ -5,7 +5,7 @@ import {
     RESET_QUIZ, SAVE_EXISTING_QUIZ_SUCCESS, SAVE_NEW_QUIZ_SUCCESS
 } from './actionTypes';
 import MockQuizApi from '../api/mockQuizQuestionsApi';
-import {beginApiCall} from './apiStatusActions';
+import {apiCallError, apiCallSuccess, beginApiCall} from './apiStatusActions';
 
 export function resetQuiz() {
     return {type: RESET_QUIZ}
@@ -23,8 +23,12 @@ export function loadActiveQuiz(quizId) {
         dispatch(beginApiCall());
 
         return MockQuizApi.getQuizData(quizId)
-            .then(quiz => dispatch(loadActiveQuizSuccess(quiz)))
+            .then(quiz => {
+                dispatch(apiCallSuccess());
+                dispatch(loadActiveQuizSuccess(quiz));
+            })
             .catch(error => {
+                dispatch(apiCallError());
                 throw(error)
             });
     }
@@ -43,8 +47,12 @@ export function loadQuizzes() {
         dispatch(beginApiCall());
 
         return MockQuizApi.getQuizzes()
-            .then(quizzes => dispatch(loadQuizzesSuccess(quizzes)))
+            .then(quizzes => {
+                dispatch(apiCallSuccess());
+                dispatch(loadQuizzesSuccess(quizzes))
+            })
             .catch(error => {
+                dispatch(apiCallError());
                 throw(error)
             })
     };

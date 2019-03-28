@@ -1,0 +1,9 @@
+{
+  "keys_dir": "./ssh",
+  "packages": {
+    "quiz-validation": {
+      "host": "bitbucket.org",
+      "key_file": "quiz-validation"
+    }
+  }
+}

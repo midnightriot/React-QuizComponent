@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import AddEditQuizForm from './AddEditQuizForm';
 import {loadQuizzes, saveQuiz} from '../../actions/quizActions';
 import Spinner from '../Common/Spinner/Spinner';
+import {toast} from 'react-toastify';
+import AddEditQuizValidator from './Validation/AddEditQuizValidator';
 
 function AddEditQuizPage({loadQuizzes, saveQuiz, history, quizzes, ...props}) {
 
@@ -19,6 +21,11 @@ function AddEditQuizPage({loadQuizzes, saveQuiz, history, quizzes, ...props}) {
         }
     }, [props.quiz.id]);
 
+    useEffect(() => {
+        const validationErrors = AddEditQuizValidator.validate(quiz);
+        setErrors(validationErrors);
+    }, [quiz]);
+
     return (quizzes == null || quizzes.length === 0)
         ? <Spinner/>
         : (<AddEditQuizForm
@@ -26,6 +33,7 @@ function AddEditQuizPage({loadQuizzes, saveQuiz, history, quizzes, ...props}) {
             onChange={onChange}
             isSaving={isSaving}
             onSave={onSave}
+            errors={errors}
         />);
 
     function onChange(event) {
@@ -36,8 +44,19 @@ function AddEditQuizPage({loadQuizzes, saveQuiz, history, quizzes, ...props}) {
 
     function onSave(event) {
         event.preventDefault();
-        setIsSaving(true);
-        saveQuiz(quiz).then(() => history.push('/'));
+
+        const validationErrors = AddEditQuizValidator.validate(quiz);
+
+        if (validationErrors == null) {
+            setIsSaving(true);
+            saveQuiz(quiz).then(() => {
+                toast.success('Quiz Saved');
+                history.push('/')
+            });
+        } else {
+            toast.error('Quiz not valid');
+            setErrors(validationErrors);
+        }
     }
 }
 
@@ -50,7 +69,7 @@ function setQuizByName(name, value, quiz, setQuiz) {
 
             const questionId = parseInt(questionIdRaw, 10);
 
-            const question = quiz.questions.find(q => q.id === questionId);
+            const question = quiz.questions.find(question => question.id === questionId);
 
             const updatedQuestion = {
                 ...question,
@@ -60,7 +79,7 @@ function setQuizByName(name, value, quiz, setQuiz) {
             setQuiz(prevQuiz => ({
                 ...prevQuiz,
                 questions: prevQuiz.questions
-                    .map(q => q.id === questionId ? updatedQuestion : q)
+                    .map(question => question.id === questionId ? updatedQuestion : question)
             }));
             break;
         }
@@ -116,7 +135,7 @@ function setQuizByName(name, value, quiz, setQuiz) {
 }
 
 function findQuizById(quizzes, id) {
-    return quizzes.find(q => q.id === id) || null;
+    return quizzes.find(question => question.id === id) || null;
 }
 
 function mapStateToProps(state, ownProps) {

@@ -3,12 +3,6 @@
 # dependencies
 /node_modules
 
-# testing
-/coverage
-
-# production
-/build
-
 # misc
 .DS_Store
 .env.local
@@ -22,3 +16,5 @@ yarn-error.log*
 
 # jetbrains
 /.idea
+
+/ssh

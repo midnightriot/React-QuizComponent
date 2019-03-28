@@ -13,7 +13,6 @@ function activeQuizReducer(state = {
 }, action) {
 
     // ToDo: Consider how much of our redux global state should really be state local to the react components using it. Guessing some of it should be local
-
     switch (action.type) {
 
         case LOADING_ACTIVE_QUIZ: {

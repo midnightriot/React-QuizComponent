@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+// config will be loaded from protected.json
+const protectedlib = require('protectedlib').init()
+protectedlib.addKeys()
