@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import TextInput from '../Common/Form/TextInput';
+import { QuestionValidationErrors } from './Validation/QuizQuestionValidationErrors';
 
-function AddEditQuestion({question, onChange, errors}) {
+interface AddEditQuestion_props {
+    question: any,
+    errors?: QuestionValidationErrors,
+    onChange: React.FormEventHandler<HTMLInputElement>
+}
+
+function AddEditQuestion({question, onChange, errors}: AddEditQuestion_props): ReactElement {
 
     errors = errors || {};
 
-    const answerOptionErrors = (errors.answerOptionDetails || []).map(e => e.error);
+    const answerOptionErrors = (errors.answerOptionDetails || []).map(detail => detail.error);
 
     return (
         <React.Fragment>
@@ -32,7 +39,7 @@ function AddEditQuestion({question, onChange, errors}) {
             <h4>Answer Options</h4>
             {errors.answerOptions && <div className="alert alert-danger">{errors.answerOptions}</div>}
 
-            {question.answerOptions.map((answerOption, index) =>
+            {question.answerOptions.map((answerOption: string, index: number) =>
                 <TextInput
                     key={index}
                     label={`Option: ${index + 1}`}

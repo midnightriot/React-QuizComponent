@@ -22,6 +22,7 @@ function AddEditQuizPage({loadQuizzes, saveQuiz, history, quizzes, ...props}) {
     }, [props.quiz.id]);
 
     useEffect(() => {
+        // Problem with this is that it will run on first pass (including if new quiz, or focus change)
         const validationErrors = AddEditQuizValidator.validate(quiz);
         setErrors(validationErrors);
     }, [quiz]);

@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import TextInput from '../Common/Form/TextInput';
 import AddEditQuestion from './AddEditQuestion';
+import Quiz from './Models/Quiz';
+import { QuizValidationErrors } from './Validation/QuizQuestionValidationErrors';
 
-function AddEditQuizForm({quiz, errors, isSaving, onChange, onSave}) {
+interface AddEditQuizForm_props {
+    quiz: Quiz,
+    errors: QuizValidationErrors,
+    isSaving: boolean,
+    onChange: React.FormEventHandler<HTMLInputElement>,
+    onSave: (target: React.FormEvent<HTMLFormElement>) => void
+}
+
+function AddEditQuizForm({quiz, errors, isSaving, onChange, onSave}: AddEditQuizForm_props): ReactElement {
 
     const canSave = !isSaving || errors == null;
 
@@ -17,14 +27,14 @@ function AddEditQuizForm({quiz, errors, isSaving, onChange, onSave}) {
 
             <TextInput label='Quiz Name'
                        onChange={onChange}
-                       placeholder={"e.x. Which of these is blue"}
+                       placeholder={'e.x. Which of these is blue'}
                        name='name'
                        error={errors.name}
                        value={quiz.name}
             />
 
             <h2>Questions</h2>
-            {errors.question && <div className="alert alert-danger">{errors.questions}</div>}
+            {errors.questions && <div className="alert alert-danger">{errors.questions}</div>}
 
             {quiz.questions
                 .map((question, index) =>

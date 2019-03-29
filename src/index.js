@@ -25,7 +25,6 @@ import registerServiceWorker from './registerServiceWorker';
 // Specs
 
 // Immediate ToDo:
-// Basic validation for quiz questions and quiz in form with errors displayed
 // type script interfaces for some type checking.
 
 // Next ToDo:
