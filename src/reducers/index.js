@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import activeQuizReducer from './activeQuizReducer';
 import quizDataReducer from './quizDataReducer';
-import addEditQuizReducer from './addEditQuizReducer';
+import addEditQuizReducer from './addEditQuiz/addEditQuizReducer';
 import apiStatusReducer from './apiStatusReducer';
 
 const rootReducer = combineReducers(

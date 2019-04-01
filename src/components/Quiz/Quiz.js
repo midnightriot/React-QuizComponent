@@ -3,6 +3,7 @@ import QuizQuestion from './QuizQuestion'
 import QuizEnd from './QuizEnd'
 import './Quiz.css'
 
+// Prob should rename this since Quiz is also a type. Maybe something like active quiz (hopefully something better)
 function Quiz({
                   isQuizEnded,
                   answeredIncorrectly,
@@ -19,9 +20,9 @@ function Quiz({
             {isQuizEnded
                 ? <QuizEnd onReset={onReset}/>
                 : <QuizQuestion quizQuestion={quizQuestion}
-                                  answeredIncorrectly={answeredIncorrectly}
-                                  onQuizAnswerSelected={onQuizAnswerSelected}
-                    />
+                                answeredIncorrectly={answeredIncorrectly}
+                                onQuizAnswerSelected={onQuizAnswerSelected}
+                />
             }
         </React.Fragment>
     );

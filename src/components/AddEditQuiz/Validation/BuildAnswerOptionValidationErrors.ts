@@ -4,7 +4,7 @@ import {
 } from 'quiz-validation/dist/quiz-validation/errors/answerOptionsErrors';
 import { AnswerOptionError } from './QuizQuestionValidationErrors';
 
-function buildAnswerOptionValidationErrors(answerOptionDetails: AnswerOptionErrorDetails): AnswerOptionError {
+export function buildAnswerOptionValidationErrors(answerOptionDetails: AnswerOptionErrorDetails): AnswerOptionError {
 
     let error;
 
@@ -28,5 +28,3 @@ function buildAnswerOptionValidationErrors(answerOptionDetails: AnswerOptionErro
         forIndex: answerOptionDetails.forIndex
     };
 }
-
-export default buildAnswerOptionValidationErrors;

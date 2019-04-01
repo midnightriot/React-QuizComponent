@@ -57,14 +57,10 @@ function TakeQuizPage({
 function mapStateToProps(state, ownProps) {
     const quiz = state.activeQuiz.activeQuiz;
 
-    // ToDo: try to reduce the amount of props
     return {
         quizzes: state.quizData.quizzes,
-        // isLoadingQuizzes: state.quizData.isLoadingQuizzes,
         isQuizEnded: state.activeQuiz.isQuizEnded,
-        // isQuizLoading: state.activeQuiz.isQuizLoading,
         selectedQuizId: quiz != null ? quiz.id : -1,
-        // hasActiveQuiz: quiz != null,
         answeredIncorrectly: state.activeQuiz.answeredIncorrectly,
         quizPosition: state.activeQuiz.quizPosition,
         activeQuiz: quiz,

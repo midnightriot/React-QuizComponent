@@ -1,15 +1,16 @@
 import React, { ReactElement } from 'react';
 import TextInput from '../Common/Form/TextInput';
 import AddEditQuestion from './AddEditQuestion';
-import Quiz from './Models/Quiz';
+import { Quiz } from '../../types/Quiz';
 import { QuizValidationErrors } from './Validation/QuizQuestionValidationErrors';
 
 interface AddEditQuizForm_props {
-    quiz: Quiz,
-    errors: QuizValidationErrors,
-    isSaving: boolean,
-    onChange: React.FormEventHandler<HTMLInputElement>,
-    onSave: (target: React.FormEvent<HTMLFormElement>) => void
+    quiz: Quiz;
+    errors: QuizValidationErrors | undefined;
+    isSaving: boolean;
+    onChange: React.FormEventHandler<HTMLInputElement>;
+
+    onSave(target: React.FormEvent<HTMLFormElement>): void;
 }
 
 function AddEditQuizForm({quiz, errors, isSaving, onChange, onSave}: AddEditQuizForm_props): ReactElement {

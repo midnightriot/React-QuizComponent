@@ -1,49 +1,69 @@
 import {
     LOAD_ACTIVE_QUIZ_SUCCESS,
-    LOADING_ACTIVE_QUIZ,
+    // LOADING_ACTIVE_QUIZ,
     QUESTION_ANSWERED,
-    RESET_QUIZ
-} from '../actions/actionTypes'
+    RESET_QUIZ,
+    Actions
+} from '../actions/activeQuizActions';
+import { Quiz } from '../types/Quiz';
 
-function activeQuizReducer(state = {
+interface State {
+    quizPosition: number;
+    isQuizEnded: boolean;
+    isQuizLoading: boolean;
+    activeQuiz?: Quiz;
+}
+
+const initialState: State = {
     quizPosition: 1,
     isQuizEnded: false,
     isQuizLoading: false,
-    activeQuiz: null
-}, action) {
+    activeQuiz: undefined
+};
+
+function activeQuizReducer(state = initialState, action: Actions): State {
 
     // ToDo: Consider how much of our redux global state should really be state local to the react components using it. Guessing some of it should be local
     switch (action.type) {
 
-        case LOADING_ACTIVE_QUIZ: {
-
-            const alterations = {
-                isQuizLoading: true,
-                activeQuiz: null
-            };
-
-            return Object.assign({}, state, alterations)
-        }
+        // case LOADING_ACTIVE_QUIZ: {
+        //
+        //     const alterations = {
+        //         isQuizLoading: true,
+        //         activeQuiz: null
+        //     };
+        //
+        //     return Object.assign({}, state, alterations)
+        // }
 
         case LOAD_ACTIVE_QUIZ_SUCCESS: {
 
+            const {payload: activeQuiz} = action;
+
             const alterations = {
                 isQuizLoading: false,
-                activeQuiz: action.activeQuiz,
+                activeQuiz: activeQuiz,
                 quizPosition: 1,
                 isQuizEnded: false
             };
 
-            return Object.assign({}, state, alterations);
+            return {...state, ...alterations};
         }
 
+        // ToDo: I don't think question answered belongs in store/app scope, but should be local to component that cares.
         case QUESTION_ANSWERED: {
+
+            const {payload: answer} = action;
 
             const quizData = state.activeQuiz;
 
+            if (quizData == null) {
+                throw {error: `${QUESTION_ANSWERED}: active quiz empty when question answered`};
+            }
+
             const questionAnswered = quizData.questions[state.quizPosition - 1];
 
-            const answeredCorrectly = questionAnswered.answer === action.answer;
+            const answeredCorrectly = questionAnswered.answer === answer;
 
             const isLastQuestion = quizData.questions.length === state.quizPosition;
 
@@ -59,7 +79,7 @@ function activeQuizReducer(state = {
                 isQuizEnded: isQuizEnded
             };
 
-            return Object.assign({}, state, alterations);
+            return {...state, ...alterations};
         }
 
         case RESET_QUIZ: {

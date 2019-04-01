@@ -3,10 +3,10 @@ import {
     QuizNameError, QuizQuestionsError,
     QuizValidationErrorDetails
 } from 'quiz-validation/dist/quiz-validation/errors/quizErrors';
-import buildQuestionValidationErrors from './BuildQuestionValidationErrors';
+import { buildQuestionValidationErrors } from './BuildQuestionValidationErrors';
 import { QuizValidationErrors } from './QuizQuestionValidationErrors';
 
-function buildQuizValidationErrors(details: QuizValidationErrorDetails): QuizValidationErrors {
+export function buildQuizValidationErrors(details: QuizValidationErrorDetails): QuizValidationErrors {
 
     const id = details.id === QuizIdError.Missing
         ? 'Quiz must have an Id.'
@@ -35,5 +35,3 @@ function buildQuizValidationErrors(details: QuizValidationErrorDetails): QuizVal
         questionDetails
     };
 }
-
-export default buildQuizValidationErrors;

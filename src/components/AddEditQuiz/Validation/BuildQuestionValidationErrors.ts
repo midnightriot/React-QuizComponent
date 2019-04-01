@@ -3,10 +3,10 @@ import {
     QuestionIdError, QuestionInstructionTextError,
     QuestionsErrorDetails
 } from 'quiz-validation/dist/quiz-validation/errors/questionsErrors';
-import buildAnswerOptionValidationErrors from './BuildAnswerOptionValidationErrors';
+import { buildAnswerOptionValidationErrors } from './BuildAnswerOptionValidationErrors';
 import { QuestionValidationErrors } from './QuizQuestionValidationErrors';
 
-function buildQuestionValidationErrors(questionDetails: QuestionsErrorDetails): QuestionValidationErrors {
+export function buildQuestionValidationErrors(questionDetails: QuestionsErrorDetails): QuestionValidationErrors {
 
     const id = questionDetails.id === QuestionIdError.Missing
         ? 'Question must have an id.'
@@ -15,9 +15,9 @@ function buildQuestionValidationErrors(questionDetails: QuestionsErrorDetails): 
     let instructionText: string | undefined;
 
     if (questionDetails.instructionText === QuestionInstructionTextError.Missing) {
-        instructionText = 'Question must have Instruction Text.'
+        instructionText = 'Question must have Instruction Text.';
     } else if (questionDetails.instructionText === QuestionInstructionTextError.TooLong) {
-        instructionText = 'Instruction text is too long.'
+        instructionText = 'Instruction text is too long.';
     }
 
     let answer: string | undefined;
@@ -44,5 +44,3 @@ function buildQuestionValidationErrors(questionDetails: QuestionsErrorDetails): 
         answerOptionDetails
     };
 }
-
-export default buildQuestionValidationErrors;

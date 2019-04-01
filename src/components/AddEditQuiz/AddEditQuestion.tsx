@@ -1,9 +1,10 @@
 import React, { ReactElement } from 'react';
 import TextInput from '../Common/Form/TextInput';
 import { QuestionValidationErrors } from './Validation/QuizQuestionValidationErrors';
+import { Question } from '../../types/Question';
 
 interface AddEditQuestion_props {
-    question: any,
+    question: Question,
     errors?: QuestionValidationErrors,
     onChange: React.FormEventHandler<HTMLInputElement>
 }

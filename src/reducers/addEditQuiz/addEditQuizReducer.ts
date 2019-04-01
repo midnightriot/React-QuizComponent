@@ -1,9 +1,19 @@
 import {
     SAVE_EXISTING_QUIZ_SUCCESS,
-    SAVE_NEW_QUIZ_SUCCESS
-} from '../actions/actionTypes';
+    SAVE_NEW_QUIZ_SUCCESS,
+} from '../../actions/actionTypes';
+import { Quiz } from '../../types/Quiz';
 
-function addEditQuizReducer(state = {quiz: null}, action) {
+interface State {
+    quiz?: Quiz
+}
+
+const initialState: State = {
+    quiz: undefined
+};
+
+// Consider if we really need global state/reducer for addEdit quiz (seems like this should mostly be local state)
+function addEditQuizReducer(state = initialState, action: Action) {
 
     switch (action.type) {
 
