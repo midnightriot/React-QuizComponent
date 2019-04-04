@@ -2,6 +2,7 @@ import MockQuizApi from '../api/mockQuizQuestionsApi';
 import { Quiz } from '../types/Quiz';
 import { createAction } from './createActionHelpers';
 import { Dispatch } from 'redux';
+import { ActionsUnion } from './types';
 
 export const LOAD_QUIZ_FOR_EDIT_SUCCESS = '[add edit quiz] load success';
 export const SAVE_NEW_QUIZ_SUCCESS = '[add edit quiz] save new success';
@@ -12,6 +13,8 @@ export const Actions = {
     saveExistingQuizSuccess: (quiz: Quiz) => createAction(SAVE_EXISTING_QUIZ_SUCCESS, quiz),
     loadQuizForEditSuccess: (quiz: Quiz) => createAction(LOAD_QUIZ_FOR_EDIT_SUCCESS, quiz),
 };
+
+export type Actions = ActionsUnion<typeof Actions>;
 
 // ToDo: I don't feel like these belong here. Consider what to do with all async type actions. Almost feel like static class (sorta like an angular service)
 export function saveQuiz(quiz: Quiz) {

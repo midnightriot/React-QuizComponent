@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import AddEditQuizForm from './AddEditQuizForm';
-import { loadQuizzes, saveQuiz } from '../../actions/quizActions';
+import { loadQuizzes } from '../../actions/quizActions';
+import { saveQuiz } from '../../actions/addEditQuizActions';
 import Spinner from '../Common/Spinner/Spinner';
 import { toast } from 'react-toastify';
 import { AddEditQuizValidator } from './Validation/AddEditQuizValidator';
@@ -12,15 +13,15 @@ import { History } from 'history';
 import { RouteComponentProps } from 'react-router';
 import { RootState } from '../../store/rootState';
 
-interface AddEditQuizPage_props {
-    loadQuizzes: () => () => Promise<Quiz[]>; // Double check type, also not sure if really returns a promise as this is wrapped code.
-    saveQuiz: (quiz: Quiz) => Promise<Quiz>; // Again double check type
+interface Props {
+    loadQuizzes: () => Promise<void>; // Double check type, also not sure if really returns a promise as this is wrapped code.
+    saveQuiz: (quiz: Quiz) => Promise<void>; // Again double check type
     history: History;
     quizzes: Quiz[];
     propsQuiz: Quiz
 }
 
-function AddEditQuizPage({loadQuizzes, saveQuiz, history, quizzes, propsQuiz}: AddEditQuizPage_props) {
+function AddEditQuizPage({loadQuizzes, saveQuiz, history, quizzes, propsQuiz}: Props) {
 
     const [quiz, setQuiz] = useState<Quiz>({...propsQuiz});
     const [errors, setErrors] = useState<QuizValidationErrors | undefined>({});
@@ -51,7 +52,7 @@ function AddEditQuizPage({loadQuizzes, saveQuiz, history, quizzes, propsQuiz}: A
             errors={errors}
         />);
 
-    // ToDo: Figure out why type doesn't work
+    // ToDo: Figure out why type doesn't work (I'm not sure what wasn't working :o)
     function onChange(event: React.FormEvent<HTMLInputElement>) {
         // ToDo: Double check this still works (was using target instead of current target)
         const {name, value} = event.currentTarget; // Lets us retain a ref
@@ -75,9 +76,9 @@ function AddEditQuizPage({loadQuizzes, saveQuiz, history, quizzes, propsQuiz}: A
             setErrors(validationErrors);
         }
     }
-}
+};
 
-type SetQuizType = (fn: (prevQuiz: Quiz) => Quiz) => void;
+type SetQuizType = (fn: React.SetStateAction<Quiz>) => void;
 
 // Better name
 function setQuizByName(name: string, value: string, quiz: Quiz, setQuiz: SetQuizType) {
@@ -165,18 +166,11 @@ function setQuizByName(name: string, value: string, quiz: Quiz, setQuiz: SetQuiz
     }
 }
 
-function findQuizById(quizzes: Quiz[], id: number | null): Quiz | undefined {
-    return quizzes.find(question => question.id === id);
-}
-
 interface MatchParams {
     id?: string;
 }
 
-interface OwnProps extends RouteComponentProps<MatchParams> {
-}
-
-function mapStateToProps(state: RootState, ownProps: OwnProps) {
+function mapStateToProps(state: RootState, ownProps: RouteComponentProps<MatchParams>) {
 
     const quizzes = state.quizData.quizzes;
 
@@ -185,7 +179,8 @@ function mapStateToProps(state: RootState, ownProps: OwnProps) {
         ? parseInt(routeId, 10)
         : null;
 
-    const quiz = findQuizById(quizzes, quizId) || {name: '', questions: []};
+    const quiz = quizzes
+        .find(quiz => quiz.id === quizId) || {name: '', questions: [], id: 0};
 
     return {
         propsQuiz: quiz,

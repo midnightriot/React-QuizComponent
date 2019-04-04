@@ -1,11 +1,27 @@
 import {
     LOAD_QUIZZES_SUCCESS,
+    Actions as QuizActions
     // LOADING_QUIZZES,
-    SAVE_EXISTING_QUIZ_SUCCESS,
-    SAVE_NEW_QUIZ_SUCCESS
-} from '../actions/actionTypes';
+} from '../actions/quizActions';
 
-function quizDataReducer(state = {quizzes: [], isLoadingQuizzes: false}, action) {
+import {
+    SAVE_EXISTING_QUIZ_SUCCESS,
+    SAVE_NEW_QUIZ_SUCCESS,
+    Actions as AddEditQuizActions
+} from '../actions/addEditQuizActions';
+import { Quiz } from '../types/Quiz';
+
+interface State {
+    quizzes: Quiz[],
+    isLoadingQuizzes: boolean
+}
+
+const initialState: State = {
+    quizzes: [],
+    isLoadingQuizzes: false
+};
+
+function quizDataReducer(state: State = initialState, action: QuizActions | AddEditQuizActions) {
 
     switch (action.type) {
 
@@ -20,8 +36,11 @@ function quizDataReducer(state = {quizzes: [], isLoadingQuizzes: false}, action)
 
         case LOAD_QUIZZES_SUCCESS: {
 
+            const {payload: quizzes} = action;
+
+
             const alterations = {
-                quizzes: action.quizzes,
+                quizzes: quizzes,
                 // isLoadingQuizzes: false
             };
 
@@ -29,13 +48,19 @@ function quizDataReducer(state = {quizzes: [], isLoadingQuizzes: false}, action)
         }
 
         case SAVE_NEW_QUIZ_SUCCESS: {
-            const alterations = {quizzes: [...state.quizzes, action.quiz]};
+
+            const {payload: quiz} = action;
+
+            const alterations = {quizzes: [...state.quizzes, quiz]};
 
             return Object.assign({}, state, alterations);
         }
 
         case SAVE_EXISTING_QUIZ_SUCCESS: {
-            const alterations = {quizzes: state.quizzes.map(q => q.id === action.quiz.id ? action.quiz : q)};
+
+            const {payload: quiz} = action;
+
+            const alterations = {quizzes: state.quizzes.map(q => q.id === quiz.id ? quiz : q)};
 
             return Object.assign({}, state, alterations);
         }

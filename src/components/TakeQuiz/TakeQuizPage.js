@@ -2,7 +2,8 @@ import React, {useEffect} from 'react';
 import Quiz from '../Quiz/Quiz';
 import QuizSelection from './QuizSelection';
 import {connect} from 'react-redux';
-import {loadActiveQuiz, loadQuizzes, quizAnswerAttemptMade, resetQuiz} from '../../actions/quizActions';
+import {loadQuizzes} from '../../actions/quizActions';
+import {Actions, loadActiveQuiz} from '../../actions/activeQuizActions'
 import Spinner from '../Common/Spinner/Spinner';
 
 function TakeQuizPage({
@@ -71,8 +72,8 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
     onActiveQuizSelected: loadActiveQuiz,
     loadQuizzes,
-    onReset: resetQuiz,
-    onQuizAnswerSelected: quizAnswerAttemptMade
+    onReset: Actions.resetQuiz,
+    onQuizAnswerSelected: Actions.quizAnswerAttemptMade
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TakeQuizPage);
